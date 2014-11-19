@@ -45,7 +45,9 @@
     - support for CFGs with Entry and Exit BasicBlocks
     - the Blocks array in a ControlFlowGraph does NOT contain Entry and Exit BasicBlocks
 */
-/* @namespace {Microsoft.CodeAnalysis.JSIRGrammar} */grammar JSIR;
+/* @namespace {Microsoft.CodeAnalysis.JSIRGrammar} */
+
+grammar JSIR;
 prog : Program;
 
 Mode : 'strict' | 'non';
