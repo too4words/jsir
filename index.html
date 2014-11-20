@@ -37,259 +37,507 @@
       <p>
         Below is an <a href='http://www.antlr.org/'>ANTLR v3</a> grammar for JSIR. 
       </p>
-<pre><code>
-/*
-    - SSA-numbered bindings 
-    - lexical scopes
-    - fully dismantles control flow
-    - support for CFGs with Entry and Exit BasicBlocks
-    - the Blocks array in a ControlFlowGraph does NOT contain Entry and Exit BasicBlocks
-*/
-/* @namespace {Microsoft.CodeAnalysis.JSIRGrammar} */
 
-grammar JSIR;
-prog : Program;
+<!-- HTML generated using hilite.me --><div style="background: #272822; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;     font-family:Consolas, monospace;"><table><tr><td><pre style="margin: 0; line-height: 125%">  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #75715e">/*</span>
+<span style="color: #75715e">    - SSA-numbered bindings </span>
+<span style="color: #75715e">    - lexical scopes</span>
+<span style="color: #75715e">    - fully dismantles control flow</span>
+<span style="color: #75715e">    - support for CFGs with Entry and Exit BasicBlocks</span>
+<span style="color: #75715e">    - the Blocks array in a ControlFlowGraph does NOT contain Entry and Exit BasicBlocks</span>
+<span style="color: #75715e">*/</span><span style="color: #f8f8f2"></span>
+<span style="color: #75715e">/* @namespace {Microsoft.CodeAnalysis.JSIRGrammar} */</span><span style="color: #66d9ef">grammar</span><span style="color: #f8f8f2"> </span><span style="color: #a6e22e">JSIR</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">prog : </span><span style="color: #66d9ef">Program</span><span style="color: #f8f8f2">;</span>
 
-Mode : 'strict' | 'non';
-Boolean : 'true' | 'false';
-Eval : 'eval';
-Null : 'null';
-This : 'this';
-Undefined : 'undefined';
-Number : NUMBER+;
+<span style="color: #f8f8f2">Mode : </span><span style="color: #e6db74">&#39;strict&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;non&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">Boolean : </span><span style="color: #e6db74">&#39;true&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;false&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">Eval : </span><span style="color: #e6db74">&#39;eval&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">Null : </span><span style="color: #e6db74">&#39;null&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">This : </span><span style="color: #e6db74">&#39;this&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">Undefined : </span><span style="color: #e6db74">&#39;undefined&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">Number : </span><span style="color: #66d9ef">NUMBER</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">;</span>
 
-Value :             
-    Number
-  | ConstantString
-  | Boolean
-  | Eval
-  | Null
-  | This
-  | Undefined
-  | Binding
-  | FunctionReference   
-;
+<span style="color: #f8f8f2">Value :             </span>
+<span style="color: #f8f8f2">    </span><span style="color: #66d9ef">Number</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ConstantString</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Boolean</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Eval</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Null</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">This</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Undefined</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">FunctionReference</span><span style="color: #f8f8f2">   </span>
+<span style="color: #f8f8f2">;</span>
 
-Program : GlobalScope /* @name {functionDeclarations}*/FunctionDeclaration* ControlFlowGraph;
+<span style="color: #f8f8f2">Program : </span><span style="color: #66d9ef">GlobalScope</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {functionDeclarations}*/</span><span style="color: #66d9ef">FunctionDeclaration</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ControlFlowGraph</span><span style="color: #f8f8f2">;</span>
 
-Statement :
-      Assignment
-    | Call  
-    | DebuggerStatement
-    | ReturnStatement
-    ;
+<span style="color: #f8f8f2">Statement :</span>
+<span style="color: #f8f8f2">      </span><span style="color: #66d9ef">Assignment</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Call</span><span style="color: #f8f8f2">  </span>
+<span style="color: #f8f8f2">    </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">DebuggerStatement</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ReturnStatement</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    ;</span>
 
-Call : StaticMethodCall | MethodCall | ConstructorCall ;
+<span style="color: #f8f8f2">Call : </span><span style="color: #66d9ef">StaticMethodCall</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">MethodCall</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ConstructorCall</span><span style="color: #f8f8f2"> ;</span>
 
-Assignment : 
-      SimpleAssignment 
-    | FieldAssignement 
-    | ArrayAssignment     
-           ;
+<span style="color: #f8f8f2">Assignment : </span>
+<span style="color: #f8f8f2">      </span><span style="color: #66d9ef">SimpleAssignment</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">FieldAssignement</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ArrayAssignment</span><span style="color: #f8f8f2">     </span>
+<span style="color: #f8f8f2">           ;</span>
 
-SimpleAssignment     :   
-    /* @name {LHS}*/Binding 
-    '=' 
-    /* @name {RHS}*/Expression;
-FieldAssignement    :   
-    /* @name {LHS}*/Binding 
-    '.' /* @name {field}*/Binding 
-    '=' 
-    /* @name {RHS}*/Binding;
-ArrayAssignment     :   
-    /* @name {LHS}*/Binding 
-    '[' 
-    /* @name {index}*/ Binding 
-    ']' 
-    '=' 
-    /* @name {RHS}*/Binding;
+<span style="color: #f8f8f2">SimpleAssignment     :   </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {LHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;=&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {RHS}*/</span><span style="color: #66d9ef">Expression</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">FieldAssignement    :   </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {LHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;.&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {field}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;=&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {RHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">ArrayAssignment     :   </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {LHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;[&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {index}*/</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;]&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;=&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {RHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2">;</span>
 
-StaticMethodCall      : 
-    /* @name {LHS}*/Binding
-    '=' 
-    /* @name {target}*/Binding
-    '(' /* @name {arguments}*/Binding (',' /* @name {arguments}*/Binding)*')' 
-    ';';
+<span style="color: #f8f8f2">StaticMethodCall      : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {LHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;=&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {target}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;(&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {arguments}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;,&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {arguments}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f92672">)*</span><span style="color: #e6db74">&#39;)&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;;&#39;</span><span style="color: #f8f8f2">;</span>
 
-MethodCall :   
-    /* @name {LHS}*/Binding 
-    '=' 
-    /* @name {target}*/Binding 
-    '.' 
-    /* @name {field}*/STRING
-    '(' 
-        /* @name {parameter}*/Binding ? (',' /* @name {parameter}*/Binding)* 
-    ')';
-ConstructorCall     :   
-    /* @name {LHS}*/Binding 
-    '=' 
-    'new' 
-    /* @name {function}*/Binding 
-    '(' /* @name {parameter}*/Binding ? (',' /* @name {parameter}*/Binding)* ')'
-    ;
+<span style="color: #f8f8f2">MethodCall :   </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {LHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;=&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {target}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;.&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {field}*/</span><span style="color: #66d9ef">STRING</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;(&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">        </span><span style="color: #75715e">/* @name {parameter}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">?</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;,&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {parameter}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f92672">)*</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;)&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">ConstructorCall     :   </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {LHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;=&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;new&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {function}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;(&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {parameter}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">?</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;,&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {parameter}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f92672">)*</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;)&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    ;</span>
 
-Binding : Type /* @name {variable}*/ID '_' Version;// Scope;
+<span style="color: #f8f8f2">Binding : </span><span style="color: #66d9ef">Type</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {variable}*/</span><span style="color: #66d9ef">ID</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;_&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Version</span><span style="color: #f8f8f2">;</span><span style="color: #75715e">// Scope;</span><span style="color: #f8f8f2"></span>
 
-// This is an uninterpreted type 
-Type    : STRING;
+<span style="color: #75715e">// This is an uninterpreted type </span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">Type    : </span><span style="color: #66d9ef">STRING</span><span style="color: #f8f8f2">;</span>
 
-/* This is intended to represent the SSA version */
-Version : NUMBER+;
+<span style="color: #75715e">/* This is intended to represent the SSA version */</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">Version : </span><span style="color: #66d9ef">NUMBER</span><span style="color: #f92672">+</span><span style="color: #f8f8f2">;</span>
 
-Scope : GlobalScope | LocalScope;
-GlobalScope : 
-    /* @name {bindings}*/Binding (/* @name {bindings}*/Binding)*
-    ;
-LocalScope : 
-    'var' 
-    '{' /* @name {parent}*/Scope '}'
-    /* @name {bindings}*/Binding (/* @name {bindings}*/Binding)*
-    ';';
+<span style="color: #f8f8f2">Scope : </span><span style="color: #66d9ef">GlobalScope</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">LocalScope</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">GlobalScope : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {bindings}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">(</span><span style="color: #75715e">/* @name {bindings}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f92672">)*</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    ;</span>
+<span style="color: #f8f8f2">LocalScope : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;var&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;{&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {parent}*/</span><span style="color: #66d9ef">Scope</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;}&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {bindings}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">(</span><span style="color: #75715e">/* @name {bindings}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f92672">)*</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;;&#39;</span><span style="color: #f8f8f2">;</span>
 
-Expression :
-    FunctionDeclaration
-  | ObjectLiteral
-  | ArrayLiteral
-  | ArrayReference
-  | FieldReference
-  | BinaryOperation
-  | UnaryOperation
-  | PhiFunction 
-  | IotaFunction 
-  | DeleteOperation  
-  | Value
-    ;
+<span style="color: #f8f8f2">Expression :</span>
+<span style="color: #f8f8f2">    </span><span style="color: #66d9ef">FunctionDeclaration</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ObjectLiteral</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ArrayLiteral</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ArrayReference</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">FieldReference</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">BinaryOperation</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">UnaryOperation</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">PhiFunction</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">IotaFunction</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">DeleteOperation</span><span style="color: #f8f8f2">  </span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Value</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    ;</span>
 
-FunctionDeclaration:
-'function' /* @name {name}*/ID 
-    '(' /* @name {arguments}*/Binding (',' /* @name {arguments}*/Binding)* ')' 
-    '{' 
-    Mode 
-    // entry and exit blocks are not included in the list blocks above
-    /* @name {declarations}*/LocalScope 
-    /* @name {nestedFunctions}*/FunctionDeclaration*
-    ControlFlowGraph
-    '}'
-    ;
-ControlFlowGraph :
-    /* @name {entryBlock}*/BasicBlock 
-    /* @name {blocks}*/BasicBlock* 
-    /* @name {exitBlock}*/BasicBlock       
-    ;
+<span style="color: #f8f8f2">FunctionDeclaration:</span>
+<span style="color: #e6db74">&#39;function&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {name}*/</span><span style="color: #66d9ef">ID</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;(&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {arguments}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;,&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {arguments}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f92672">)*</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;)&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;{&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #66d9ef">Mode</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">// entry and exit blocks are not included in the list blocks above</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {declarations}*/</span><span style="color: #66d9ef">LocalScope</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {nestedFunctions}*/</span><span style="color: #66d9ef">FunctionDeclaration</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #66d9ef">ControlFlowGraph</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;}&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    ;</span>
+<span style="color: #f8f8f2">ControlFlowGraph :</span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {entryBlock}*/</span><span style="color: #66d9ef">BasicBlock</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {blocks}*/</span><span style="color: #66d9ef">BasicBlock</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {exitBlock}*/</span><span style="color: #66d9ef">BasicBlock</span><span style="color: #f8f8f2">       </span>
+<span style="color: #f8f8f2">    ;</span>
 
-KeyValuePair : /* @name {field}*/STRING ':' /* @name {value}*/Value;
-ObjectLiteral:
-'{' /* @name {pair}*/KeyValuePair (',' /* @name {pair}*/KeyValuePair)* '}';
+<span style="color: #f8f8f2">KeyValuePair : </span><span style="color: #75715e">/* @name {field}*/</span><span style="color: #66d9ef">STRING</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;:&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {value}*/</span><span style="color: #66d9ef">Value</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">ObjectLiteral:</span>
+<span style="color: #e6db74">&#39;{&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {pair}*/</span><span style="color: #66d9ef">KeyValuePair</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;,&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {pair}*/</span><span style="color: #66d9ef">KeyValuePair</span><span style="color: #f92672">)*</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;}&#39;</span><span style="color: #f8f8f2">;</span>
 
-ArrayLiteral :
-'[' /* @name {elements}*/Binding (',' /* @name {elements}*/Binding)* ']';
-ArrayReference:
-/* @name {target}*/Binding '[' /* @name {index}*/Binding ']';
-FieldReference:
-/* @name {target}*/Binding '.' /* @name {field}*/STRING;
-DeleteOperation: 
-      DeleteBinding 
-    | DeleteArrayReference 
-    | DeleteValue ;
+<span style="color: #f8f8f2">ArrayLiteral :</span>
+<span style="color: #e6db74">&#39;[&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {elements}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;,&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {elements}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f92672">)*</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;]&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">ArrayReference:</span>
+<span style="color: #75715e">/* @name {target}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;[&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {index}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;]&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">FieldReference:</span>
+<span style="color: #75715e">/* @name {target}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;.&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {field}*/</span><span style="color: #66d9ef">STRING</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">DeleteOperation: </span>
+<span style="color: #f8f8f2">      </span><span style="color: #66d9ef">DeleteBinding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">DeleteArrayReference</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">DeleteValue</span><span style="color: #f8f8f2"> ;</span>
 
-DeleteBinding: 
-    'delete' 
-    /* @name {target}*/Binding 
-    '.' 
-    /* @name {field}*/Binding;
-DeleteArrayReference: 
-    'delete' 
-    /* @name {target}*/Binding 
-    '[' 
-    /* @name {index}*/Binding 
-    ']';
-DeleteValue : 
-    'delete' Binding;
+<span style="color: #f8f8f2">DeleteBinding: </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;delete&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {target}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;.&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {field}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">DeleteArrayReference: </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;delete&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {target}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;[&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {index}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;]&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">DeleteValue : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;delete&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2">;</span>
 
-BinaryOperation : 
-    /* @name {LHS}*/Binding 
-    BinaryOperator 
-    /* @name {RHS}*/Binding;
-UnaryOperation : 
-    UnaryOperator Binding;
+<span style="color: #f8f8f2">BinaryOperation : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {LHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #66d9ef">BinaryOperator</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {RHS}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">UnaryOperation : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #66d9ef">UnaryOperator</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2">;</span>
 
-PhiFunction :
-    'phi' 
-    '('
-    /* @name {bindings}*/Binding
-    (',' /* @name {bindings}*/Binding)*
-    ')'
-    ;
-IotaFunction : 
-    'iota'             
-    '('
-    /* @name {variable}*/ID
-    ')'
-    ;
+<span style="color: #f8f8f2">PhiFunction :</span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;phi&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;(&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {bindings}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;,&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {bindings}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f92672">)*</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;)&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    ;</span>
+<span style="color: #f8f8f2">IotaFunction : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;iota&#39;</span><span style="color: #f8f8f2">             </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;(&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {variable}*/</span><span style="color: #66d9ef">ID</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;)&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    ;</span>
 
-FunctionReference : 
-    'ref'             
-    '('
-    /* @name {variable}*/ID
-    ')'
-    ;
+<span style="color: #f8f8f2">FunctionReference : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;ref&#39;</span><span style="color: #f8f8f2">             </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;(&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {variable}*/</span><span style="color: #66d9ef">ID</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;)&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    ;</span>
 
-DebuggerStatement : 'debugger';
-ReturnStatement : 'return' /* @name {value} */Binding;
+<span style="color: #f8f8f2">DebuggerStatement : </span><span style="color: #e6db74">&#39;debugger&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">ReturnStatement : </span><span style="color: #e6db74">&#39;return&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {value} */</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2">;</span>
 
-ConstantString : STRING;
-Label: STRING;
+<span style="color: #f8f8f2">ConstantString : </span><span style="color: #66d9ef">STRING</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">Label: </span><span style="color: #66d9ef">STRING</span><span style="color: #f8f8f2">;</span>
 
-Jump :
-    SimpleGoto
-  | ConditionalGoto
-  | ThrowTo;
+<span style="color: #f8f8f2">Jump :</span>
+<span style="color: #f8f8f2">    </span><span style="color: #66d9ef">SimpleGoto</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ConditionalGoto</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ThrowTo</span><span style="color: #f8f8f2">;</span>
 
-SimpleGoto : 'goto' /* @name {labels}*/Label (',' /* @name {labels}*/Label)*;
-ConditionalGoto : 
-    'goto' 
-    /* @name {predicate}*/Binding 
-    /* @name {label1}*/Label 
-    /* @name {label2}*/Label;
-ThrowTo : 
-    'throwto' Binding;
+<span style="color: #f8f8f2">SimpleGoto : </span><span style="color: #e6db74">&#39;goto&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {labels}*/</span><span style="color: #66d9ef">Label</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;,&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {labels}*/</span><span style="color: #66d9ef">Label</span><span style="color: #f92672">)*</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">ConditionalGoto : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;goto&#39;</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {predicate}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {label1}*/</span><span style="color: #66d9ef">Label</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">    </span><span style="color: #75715e">/* @name {label2}*/</span><span style="color: #66d9ef">Label</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">ThrowTo : </span>
+<span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;throwto&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2">;</span>
 
-BasicBlock :
-    RegularBasicBlock |
-    ExceptionalBasicBlock;
+<span style="color: #f8f8f2">BasicBlock :</span>
+<span style="color: #f8f8f2">    </span><span style="color: #66d9ef">RegularBasicBlock</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">    </span><span style="color: #66d9ef">ExceptionalBasicBlock</span><span style="color: #f8f8f2">;</span>
 
-//  EmptyBasicBlock |
-//EmptyBasicBlock : Label Jump;
+<span style="color: #75715e">//  EmptyBasicBlock |</span><span style="color: #f8f8f2"></span>
+<span style="color: #75715e">//EmptyBasicBlock : Label Jump;</span><span style="color: #f8f8f2"></span>
 
-RegularBasicBlock : Label Statement* Jump;
+<span style="color: #f8f8f2">RegularBasicBlock : </span><span style="color: #66d9ef">Label</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Statement</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Jump</span><span style="color: #f8f8f2">;</span>
 
-ExceptionalBasicBlock : 'set-catch-label' Label Binding Statement* Jump;
+<span style="color: #f8f8f2">ExceptionalBasicBlock : </span><span style="color: #e6db74">&#39;set-catch-label&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Label</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Statement</span><span style="color: #f92672">*</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">Jump</span><span style="color: #f8f8f2">;</span>
 
-UnaryOperator    : '!'| '-' | '+' | '~'| 'typeof' | 'void' | '++'| '--';
-BinaryOperator   : '+'|'-'|'^'|'|'|'*'|'/'|'%'| 
-                   '&&' | '||' | 
-                   '|' | '&' | '>>' | '<<'| '>>>' | 
-                   '^' | 'instanceof' |
-                   '==' | '===' | '!=' | '!=='
-                 ;
+<span style="color: #f8f8f2">UnaryOperator    : </span><span style="color: #e6db74">&#39;!&#39;</span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;-&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;+&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;~&#39;</span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;typeof&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;void&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;++&#39;</span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;--&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #f8f8f2">BinaryOperator   : </span><span style="color: #e6db74">&#39;+&#39;</span><span style="color: #f92672">|</span><span style="color: #e6db74">&#39;-&#39;</span><span style="color: #f92672">|</span><span style="color: #e6db74">&#39;^&#39;</span><span style="color: #f92672">|</span><span style="color: #e6db74">&#39;|&#39;</span><span style="color: #f92672">|</span><span style="color: #e6db74">&#39;*&#39;</span><span style="color: #f92672">|</span><span style="color: #e6db74">&#39;/&#39;</span><span style="color: #f92672">|</span><span style="color: #e6db74">&#39;%&#39;</span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">                   </span><span style="color: #e6db74">&#39;&amp;&amp;&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;||&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">                   </span><span style="color: #e6db74">&#39;|&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;&amp;&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;&gt;&gt;&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;&lt;&lt;&#39;</span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;&gt;&gt;&gt;&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span>
+<span style="color: #f8f8f2">                   </span><span style="color: #e6db74">&#39;^&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;instanceof&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">                   </span><span style="color: #e6db74">&#39;==&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;===&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;!=&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;!==&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">                 ;</span>
 
-///////////////////////////////
+<span style="color: #75715e">///////////////////////////////</span><span style="color: #f8f8f2"></span>
 
-STRING
-    :   '"' StringCharacters? '"' |
-        '\'' StringCharacters? '\'' ;
-StringCharacters
-    :   ('a'..'z')|('A'..'Z')|('0'..'9') ;
+<span style="color: #f8f8f2">STRING</span>
+<span style="color: #f8f8f2">    :   </span><span style="color: #e6db74">&#39;&quot;&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">StringCharacters</span><span style="color: #f92672">?</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;&quot;&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">        </span><span style="color: #e6db74">&#39;\&#39;&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">StringCharacters</span><span style="color: #f92672">?</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;\&#39;&#39;</span><span style="color: #f8f8f2"> ;</span>
+<span style="color: #f8f8f2">StringCharacters</span>
+<span style="color: #f8f8f2">    :   </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;a&#39;</span><span style="color: #f92672">..</span><span style="color: #e6db74">&#39;z&#39;</span><span style="color: #f92672">)|(</span><span style="color: #e6db74">&#39;A&#39;</span><span style="color: #f92672">..</span><span style="color: #e6db74">&#39;Z&#39;</span><span style="color: #f92672">)|(</span><span style="color: #e6db74">&#39;0&#39;</span><span style="color: #f92672">..</span><span style="color: #e6db74">&#39;9&#39;</span><span style="color: #f92672">)</span><span style="color: #f8f8f2"> ;</span>
 
-fragment NUMBER : '0'..'9';
-fragment ID : ('a'..'z' | 'A'..'Z' | '_' | '-' | 'a'..'z' | 'A'..'Z' | '$' | NUMBER)+;
+<span style="color: #66d9ef">fragment</span><span style="color: #f8f8f2"> NUMBER : </span><span style="color: #e6db74">&#39;0&#39;</span><span style="color: #f92672">..</span><span style="color: #e6db74">&#39;9&#39;</span><span style="color: #f8f8f2">;</span>
+<span style="color: #66d9ef">fragment</span><span style="color: #f8f8f2"> ID : </span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;a&#39;</span><span style="color: #f92672">..</span><span style="color: #e6db74">&#39;z&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;A&#39;</span><span style="color: #f92672">..</span><span style="color: #e6db74">&#39;Z&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;_&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;-&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;a&#39;</span><span style="color: #f92672">..</span><span style="color: #e6db74">&#39;z&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;A&#39;</span><span style="color: #f92672">..</span><span style="color: #e6db74">&#39;Z&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;$&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">NUMBER</span><span style="color: #f92672">)+</span><span style="color: #f8f8f2">;</span>
 
-//WS : ('\r'|'\n'|'\t') -> skip ;
-//COMMENT : (
-//	('#'| '//') ~[\r\n]* '\r'? '\n'
-//		| '/*[' .*? ']*/
-//	)  -> skip ;
-</code></pre>
+<span style="color: #75715e">//WS : (&#39;\r&#39;|&#39;\n&#39;|&#39;\t&#39;) -&gt; skip ;</span><span style="color: #f8f8f2"></span>
+<span style="color: #75715e">//COMMENT : (</span><span style="color: #f8f8f2"></span>
+<span style="color: #75715e">//	(&#39;#&#39;| &#39;//&#39;) ~[\r\n]* &#39;\r&#39;? &#39;\n&#39;</span><span style="color: #f8f8f2"></span>
+<span style="color: #75715e">//		| &#39;/*[&#39; .*? &#39;]*/</span><span style="color: #f8f8f2"></span>
+<span style="color: #75715e">//	)  -&gt; skip ;</span><span style="color: #f8f8f2"></span>
+</pre></td></tr></table></div>
+
+
       </section>
     </div>
     <footer>
