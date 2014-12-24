@@ -415,6 +415,7 @@
 <span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ArrayLiteral</span><span style="color: #f8f8f2"></span>
 <span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">ArrayReference</span><span style="color: #f8f8f2"></span>
 <span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">FieldReference</span><span style="color: #f8f8f2"></span>
+<span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">PropertyNameIterator</span><span style="color: #f8f8f2"></span>
 <span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">BinaryOperation</span><span style="color: #f8f8f2"></span>
 <span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">UnaryOperation</span><span style="color: #f8f8f2"></span>
 <span style="color: #f8f8f2">  </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">PhiFunction</span><span style="color: #f8f8f2"> </span>
@@ -450,10 +451,11 @@
 <span style="color: #75715e">/* @name {target}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;[&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {index}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;]&#39;</span><span style="color: #f8f8f2">;</span>
 <span style="color: #f8f8f2">FieldReference:</span>
 <span style="color: #75715e">/* @name {target}*/</span><span style="color: #66d9ef">Binding</span><span style="color: #f8f8f2"> </span><span style="color: #e6db74">&#39;.&#39;</span><span style="color: #f8f8f2"> </span><span style="color: #75715e">/* @name {field}*/</span><span style="color: #66d9ef">STRING</span><span style="color: #f8f8f2">;</span>
-<span style="color: #f8f8f2">DeleteOperation: </span>
-<span style="color: #f8f8f2">      </span><span style="color: #66d9ef">DeleteBinding</span><span style="color: #f8f8f2"> </span>
-<span style="color: #f8f8f2">    </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">DeleteArrayReference</span><span style="color: #f8f8f2"> </span>
-<span style="color: #f8f8f2">    </span><span style="color: #f92672">|</span><span style="color: #f8f8f2"> </span><span style="color: #66d9ef">DeleteValue</span><span style="color: #f8f8f2"> ;</span>
+
+<span style="color: #f8f8f2">PropertyNameIterator: </span>
+<span style="color: #f8f8f2">      </span><span style="color: #e6db74">&#39;nextProperty&#39;</span> <span style="color: #e6db74">&#39;(&#39;</span>
+<span style="color: #f8f8f2">      </span><span style="color: #75715e">/* @name {object}*/</span> <span style="color: #66d9ef">Binding</span> <span style="color: #e6db74">&#39;,&#39;</span> <span style="color: #75715e">/* @name {previousPropName}*/</span> <span style="color: #66d9ef">Binding</span>
+<span style="color: #f8f8f2">      </span><span style="color: #e6db74">&#39;)&#39;</span><span style="color: #f8f8f2"> ;</span>
 
 <span style="color: #f8f8f2">DeleteBinding: </span>
 <span style="color: #f8f8f2">    </span><span style="color: #e6db74">&#39;delete&#39;</span><span style="color: #f8f8f2"> </span>
