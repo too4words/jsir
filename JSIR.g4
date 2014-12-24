@@ -112,6 +112,7 @@ Expression :
   | ArrayLiteral
   | ArrayReference
   | FieldReference
+  | PropertyNameIterator
   | BinaryOperation
   | UnaryOperation
   | PhiFunction 
@@ -147,6 +148,13 @@ ArrayReference:
 /* @name {target}*/Binding '[' /* @name {index}*/Binding ']';
 FieldReference:
 /* @name {target}*/Binding '.' /* @name {field}*/STRING;
+
+PropertyNameIterator:
+    'nextProperty' '(' 
+    /* @name {object}*/Binding  ',' 
+    /* @name {previousPropName} */Binding  
+    ')' ;
+
 DeleteOperation: 
       DeleteBinding 
     | DeleteArrayReference 
